@@ -1,0 +1,28 @@
+#!/bin/bash
+
+function check-installed {
+  dpkg-query --status $1 > /dev/null
+}
+
+function echo-and-exit {
+  echo $1; exit $2 || 1
+}
+
+mirror="http://aptcacher.int.filterfish.org:3142/auto.mirror.devuan.org/merged"
+image=$1
+size=${2:-8}
+
+[[ -z $image ]] && echo-and-exit "usage: $0 <output image path> <size in G>"
+
+check-installed vmdebootstrap || echo-and-exit "Please install vmdebootstrap"
+check-installed dosfstools    || echo-and-exit "Please install dosfstools"
+
+
+size=$(($size * 1073741824))
+
+
+opts="--no-systemd-networkd --no-enable-dhcp --verbose --grub --serial-console \
+  --sudo --configure-apt --size=$size --roottype=xfs \
+  --distribution=beowulf --mirror=$mirror --apt-mirror=$mirror"
+
+vmdebootstrap $opts --image=$image
