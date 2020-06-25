@@ -1,0 +1,11 @@
+tags
+.*.hoo
+.*.warn
+propellor/doc/haddocks
+dist-newstyle
+
+.terraform
+terraform.tfstate*
+
+distrobuilder/*.tar.xz
+distrobuilder/rootfs.squashfs
