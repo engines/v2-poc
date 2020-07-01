@@ -8,6 +8,12 @@ provider "lxd" {
 }
 
 
+module "turtle-container" {
+  source  = "./modules/turtle-container"
+  name    = "ns"
+  image   = "engines/beowulf/base/20200623/1143/ac"
+}
+
 # ------------------------------------------------------------
 # postgres container
 # ------------------------------------------------------------
