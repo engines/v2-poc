@@ -13,19 +13,19 @@ provider "lxd" {
 # ------------------------------------------------------------
 
 module "postgres" {
-  source = "./modules/turtle-container"
-  name  = "postgres"
-  image = "engines/beowulf/base/20200623/1143"
+  source  = "./modules/turtle-container"
+  name    = "postgres"
+  image   = "engines/beowulf/base/20200701/0249/ci"
 }
 
 module "rails" {
-  source = "./modules/turtle-container"
-  name  = "rails"
-  image = "engines/beowulf/base/20200623/1143"
+  source  = "./modules/turtle-container"
+  name    = "rails"
+  image   = "engines/beowulf/base/20200701/0710"
 }
 
 module "wap" {
-  source = "./modules/turtle-container"
-  name  = "wap"
-  image = "engines/beowulf/base/20200623/1143"
+  source  = "./modules/turtle-container"
+  name    = "wap"
+  image   = "engines/beowulf/base/20200701/0710"
 }
