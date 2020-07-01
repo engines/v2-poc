@@ -30,6 +30,7 @@ done
 
 heading "Setting up apt"
 cat > $apt_conf << EOF
+quiet true;
 APT::Install-Suggests "false";
 APT::Install-Recommends "false";
 APT::AutoRemove::SuggestsImportant "false";
