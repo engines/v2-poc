@@ -20,7 +20,7 @@ apt_conf=/etc/apt/apt.conf.d/01-minimal-install
 suites="$suite $suite-updates $suite-backports $suite-security"
 
 # Install a sensible sources.list
-echo "# Set up by packer - probably best not to touch it.\n" > $src
+printf "# Set up by packer - probably best not to touch it.\n\n" > $src
 for s in $suites; do
   echo "deb $uri $s $component" >> $src
 done
