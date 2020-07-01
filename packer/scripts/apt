@@ -13,7 +13,7 @@ src=/etc/apt/sources.list.d/$suite.list
 
 heading "Setting up sources.list for: $suite"
 
-uri=http://aptcacher.int.filterfish.org:3142/auto.mirror.devuan.org/merged
+uri=http://auto.mirror.devuan.org/merged
 component=main
 apt_conf=/etc/apt/apt.conf.d/01-minimal-install
 
