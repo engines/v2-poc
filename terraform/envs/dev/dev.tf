@@ -13,6 +13,26 @@ provider "consul" {
   datacenter = "dh"
 }
 
+resource "consul_key_prefix" "myapp_config" {
+  datacenter = "dh"
+
+  # Prefix to add to prepend to all of the subkey names below.
+  path_prefix = "clientid/config/"
+
+  subkeys = {
+    "database/hostname" = "postgres.clientid.engines.org"
+    "database/port"     = 5432
+    "database/username" = "foo"
+    "database/name"     = "bar"
+  }
+
+  subkey {
+    path  = "database/password"
+    value = "bob"
+    flags = 2
+  }
+}
+
 
 module "turtle-container" {
   source  = "./modules/turtle-container"
