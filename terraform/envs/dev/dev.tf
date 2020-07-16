@@ -8,10 +8,30 @@ provider "lxd" {
 }
 
 
+# I really fucking wish this worked.
+# TODO: work out how to nest variables.
+#
+# variable "domain" {
+#   default = "${var.datacentre}.${var.zone}"
+# }
+
+
+provider "powerdns" {
+  api_key    = var.pdns_api_key
+  server_url = var.pdns_server_url
+}
+
+module "engines" {
+  source      = "./modules/dns"
+  zone        = var.zone
+}
+
+
 provider "consul" {
   address    = "[fd61:d025:74d7:f46a:216:3eff:fe0f:ec40]:8500"
   datacenter = "dh"
 }
+
 
 resource "consul_key_prefix" "myapp_config" {
   datacenter = "dh"
@@ -38,6 +58,7 @@ module "turtle-container" {
   source  = "./modules/turtle-container"
   name    = "ns"
   image   = "engines/beowulf/base/20200623/1143/ac"
+  zone    = var.zone
 }
 
 
@@ -45,6 +66,7 @@ module "consul1" {
   source  = "./modules/turtle-container"
   name    = "consul1"
   image   = "engines/beowulf/base/20200701/0710"
+  zone    = var.zone
 }
 
 
@@ -52,6 +74,7 @@ module "consul2" {
   source  = "./modules/turtle-container"
   name    = "consul2"
   image   = "engines/beowulf/base/20200701/0710"
+  zone    = var.zone
 }
 
 
@@ -59,6 +82,7 @@ module "consul3" {
   source  = "./modules/turtle-container"
   name    = "consul3"
   image   = "engines/beowulf/base/20200701/0710"
+  zone    = var.zone
 }
 
 # ------------------------------------------------------------
@@ -69,16 +93,19 @@ module "postgres" {
   source  = "./modules/turtle-container"
   name    = "postgres"
   image   = "engines/beowulf/base/20200701/0249/ci"
+  zone    = var.zone
 }
 
 module "rails" {
   source  = "./modules/turtle-container"
   name    = "rails"
   image   = "engines/beowulf/base/20200701/0710"
+  zone    = var.zone
 }
 
 module "wap" {
   source  = "./modules/turtle-container"
   name    = "wap"
   image   = "engines/beowulf/base/20200701/0710"
+  zone    = var.zone
 }
