@@ -53,3 +53,12 @@ resource "lxd_container" "turtle" {
     }
   }
 }
+
+
+resource "powerdns_record" "AAAA" {
+  zone    = var.zone
+  name    = "${lxd_container.turtle.name}.${var.zone}."
+  type    = "AAAA"
+  ttl     = var.dns_ttl
+  records = ["${lxd_container.turtle.ipv6_address}"]
+}
