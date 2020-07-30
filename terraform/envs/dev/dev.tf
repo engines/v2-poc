@@ -34,7 +34,7 @@ provider "consul" {
 resource "consul_key_prefix" "myapp_config" {
   datacenter = "dh"
 
-  # Prefix to add to prepend to all of the subkey names below.
+  # Prefix to prepend to the subkey & subkeys stanzas.
   path_prefix = "clientid/config/"
 
   subkeys = {
@@ -84,7 +84,7 @@ module "consul3" {
 }
 
 # ------------------------------------------------------------
-# postgres container
+# Postgresql container
 # ------------------------------------------------------------
 
 module "postgres" {
@@ -94,12 +94,38 @@ module "postgres" {
   zone    = local.domain
 }
 
+module "postgres_srv" {
+  source    = "./modules/consul-service"
+  srv_name  = "database"
+  srv_port  = 5432
+  srv_node  = "${module.postgres.name}"
+  srv_addr  = "${module.postgres.ipv6_address}"
+}
+
+
+# ------------------------------------------------------------
+# Rails container
+# ------------------------------------------------------------
+
 module "rails" {
   source  = "./modules/turtle-container"
   name    = "rails"
   image   = "engines/beowulf/base/20200701/0710"
   zone    = local.domain
 }
+
+module "rails_srv" {
+  source    = "./modules/consul-service"
+  srv_name  = "web"
+  srv_port  = 3001
+  srv_node  = "${module.rails.name}"
+  srv_addr  = "${module.rails.ipv6_address}"
+}
+
+
+# ------------------------------------------------------------
+# Reverse HTTP Proxy container
+# ------------------------------------------------------------
 
 module "wap" {
   source  = "./modules/turtle-container"
