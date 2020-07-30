@@ -1,3 +1,17 @@
+
+output "name" {
+  value = lxd_container.turtle.name
+}
+
+output "ipv4_address" {
+  value = lxd_container.turtle.ipv4_address
+}
+
+output "ipv6_address" {
+  value = lxd_container.turtle.ipv6_address
+}
+
+
 resource "lxd_container" "turtle" {
   name      = var.name
   image     = var.image
