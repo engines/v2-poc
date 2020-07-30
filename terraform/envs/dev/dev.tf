@@ -8,12 +8,9 @@ provider "lxd" {
 }
 
 
-# I really fucking wish this worked.
-# TODO: work out how to nest variables.
-#
-# variable "domain" {
-#   default = "${var.datacentre}.${var.zone}"
-# }
+locals {
+  domain = "${var.datacentre}.${var.zone}"
+}
 
 
 provider "powerdns" {
@@ -21,9 +18,10 @@ provider "powerdns" {
   server_url = var.pdns_server_url
 }
 
+
 module "engines" {
   source      = "./modules/dns"
-  zone        = var.zone
+  zone        = local.domain
 }
 
 
@@ -58,7 +56,7 @@ module "turtle-container" {
   source  = "./modules/turtle-container"
   name    = "ns"
   image   = "engines/beowulf/base/20200623/1143/ac"
-  zone    = var.zone
+  zone    = local.domain
 }
 
 
@@ -66,7 +64,7 @@ module "consul1" {
   source  = "./modules/turtle-container"
   name    = "consul1"
   image   = "engines/beowulf/base/20200701/0710"
-  zone    = var.zone
+  zone    = local.domain
 }
 
 
@@ -74,7 +72,7 @@ module "consul2" {
   source  = "./modules/turtle-container"
   name    = "consul2"
   image   = "engines/beowulf/base/20200701/0710"
-  zone    = var.zone
+  zone    = local.domain
 }
 
 
@@ -82,7 +80,7 @@ module "consul3" {
   source  = "./modules/turtle-container"
   name    = "consul3"
   image   = "engines/beowulf/base/20200701/0710"
-  zone    = var.zone
+  zone    = local.domain
 }
 
 # ------------------------------------------------------------
@@ -93,19 +91,19 @@ module "postgres" {
   source  = "./modules/turtle-container"
   name    = "postgres"
   image   = "engines/beowulf/base/20200701/0249/ci"
-  zone    = var.zone
+  zone    = local.domain
 }
 
 module "rails" {
   source  = "./modules/turtle-container"
   name    = "rails"
   image   = "engines/beowulf/base/20200701/0710"
-  zone    = var.zone
+  zone    = local.domain
 }
 
 module "wap" {
   source  = "./modules/turtle-container"
   name    = "wap"
   image   = "engines/beowulf/base/20200701/0710"
-  zone    = var.zone
+  zone    = local.domain
 }

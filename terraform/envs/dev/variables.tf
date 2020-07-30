@@ -2,12 +2,8 @@ variable "datacentre" {
   default = "dh"
 }
 
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# !!! This must match the above. Hopefully this will go  !!!
-# !!! away when I work out to nest variables             !!!
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 variable "zone" {
-  default = "dh.engines.org"
+  default = "engines.org"
 }
 
 variable "dns_ttl" {
