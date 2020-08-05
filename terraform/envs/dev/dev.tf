@@ -31,6 +31,9 @@ provider "consul" {
 }
 
 
+# ------------------------------------------------------------
+# Network Services container -- bootstrap
+# ------------------------------------------------------------
 module "turtle-container" {
   source  = "./modules/turtle-container"
   name    = "ns"
@@ -39,6 +42,9 @@ module "turtle-container" {
 }
 
 
+# ------------------------------------------------------------
+# Consul containers -- bootstrap
+# ------------------------------------------------------------
 module "consul1" {
   source  = "./modules/turtle-container"
   name    = "consul1"
@@ -65,7 +71,6 @@ module "consul3" {
 # ------------------------------------------------------------
 # Postgresql container
 # ------------------------------------------------------------
-
 module "postgres" {
   source  = "./modules/turtle-container"
   name    = "postgres"
