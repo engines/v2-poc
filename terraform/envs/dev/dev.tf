@@ -104,15 +104,29 @@ module "postgres_srv" {
 
 
 # ------------------------------------------------------------
-# Rails container
+# Application containers
 # ------------------------------------------------------------
-
-module "rails" {
+module "app0" {
   source  = "./modules/turtle-container"
-  name    = "rails"
+  name    = "app0"
   image   = "engines/beowulf/base/20200701/0710"
   zone    = local.domain
 }
+
+module "app1" {
+  source  = "./modules/turtle-container"
+  name    = "app1"
+  image   = "engines/beowulf/base/20200701/0710"
+  zone    = local.domain
+}
+
+module "app2" {
+  source  = "./modules/turtle-container"
+  name    = "app2"
+  image   = "engines/beowulf/base/20200701/0710"
+  zone    = local.domain
+}
+
 
 module "rails_srv" {
   source    = "./modules/consul-service"
