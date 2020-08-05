@@ -141,7 +141,7 @@ module "wap" {
 # ------------------------------------------------------------
 # Application DNS entry
 # ------------------------------------------------------------
-resource "powerdns_record" "AAAA" {
+resource "powerdns_record" "app" {
   zone    = local.domain
   name    = "${local.entrypoint}."
   type    = "AAAA"
