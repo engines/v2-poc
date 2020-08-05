@@ -31,27 +31,6 @@ provider "consul" {
 }
 
 
-resource "consul_key_prefix" "myapp_config" {
-  datacenter = "dh"
-
-  # Prefix to prepend to the subkey & subkeys stanzas.
-  path_prefix = "clientid/config/"
-
-  subkeys = {
-    "database/hostname" = "postgres.clientid.engines.org"
-    "database/port"     = 5432
-    "database/username" = "foo"
-    "database/name"     = "bar"
-  }
-
-  subkey {
-    path  = "database/password"
-    value = "bob"
-    flags = 2
-  }
-}
-
-
 module "turtle-container" {
   source  = "./modules/turtle-container"
   name    = "ns"
@@ -128,12 +107,17 @@ module "app2" {
 }
 
 
-module "rails_srv" {
-  source    = "./modules/consul-service"
-  srv_name  = "web"
-  srv_port  = 3001
-  srv_node  = "${module.rails.name}"
-  srv_addr  = "${module.rails.ipv6_address}"
+resource "consul_key_prefix" "wap" {
+  datacenter  = "dh"
+  path_prefix = "traefik/"
+  subkeys     = {
+    "http/routers/app/entrypoints/0"                = "web"
+    "http/routers/app/service"                      = "app"
+    "http/routers/app/rule"                         = "Host(`app.dh.engines.org`)"
+    "http/services/app/loadbalancer/servers/0/url"  = "http://app0.dh.engines.org:3000/"
+    "http/services/app/loadbalancer/servers/1/url"  = "http://app1.dh.engines.org:3000/"
+    "http/services/app/loadbalancer/servers/2/url"  = "http://app2.dh.engines.org:3000/"
+  }
 }
 
 
