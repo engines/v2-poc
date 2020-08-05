@@ -145,6 +145,6 @@ resource "powerdns_record" "AAAA" {
   zone    = local.domain
   name    = "${local.entrypoint}."
   type    = "AAAA"
-  ttl     = 60
+  ttl     = var.dns_ttl
   records = ["${module.wap.ipv6_address}"]
 }
