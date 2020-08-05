@@ -27,7 +27,7 @@ module "engines" {
 
 provider "consul" {
   address    = "[fd61:d025:74d7:f46a:216:3eff:fe0f:ec40]:8500"
-  datacenter = "dh"
+  datacenter = var.datacentre
 }
 
 
@@ -113,15 +113,15 @@ module "app2" {
 
 
 resource "consul_key_prefix" "wap" {
-  datacenter  = "dh"
+  datacenter  = var.datacentre
   path_prefix = "traefik/"
   subkeys     = {
     "http/routers/app/entrypoints/0"                = "web"
     "http/routers/app/service"                      = "app"
     "http/routers/app/rule"                         = "Host(`app.dh.engines.org`)"
-    "http/services/app/loadbalancer/servers/0/url"  = "http://app0.dh.engines.org:3000/"
-    "http/services/app/loadbalancer/servers/1/url"  = "http://app1.dh.engines.org:3000/"
-    "http/services/app/loadbalancer/servers/2/url"  = "http://app2.dh.engines.org:3000/"
+    "http/services/app/loadbalancer/servers/0/url"  = "http://${module.app0.name}.${local.domain}:3000/"
+    "http/services/app/loadbalancer/servers/1/url"  = "http://${module.app1.name}.${local.domain}:3000/"
+    "http/services/app/loadbalancer/servers/2/url"  = "http://${module.app2.name}.${local.domain}:3000/"
   }
 }
 

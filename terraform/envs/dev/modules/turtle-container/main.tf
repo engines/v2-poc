@@ -34,7 +34,7 @@ resource "lxd_container" "turtle" {
   # This only exists because the host name is not in DNS so
   # it doesn't know who it is which breaks propellor.
   provisioner "file" {
-    content     = "127.0.1.1\t${self.name}.int.engines.org ${self.name}\n127.0.0.1\tlocalhost\n::1\tlocalhost\nff02::1\tip6-allnodes\nff02::2i\tip6-allrouters"
+    content     = "127.0.1.1\t${self.name}.${var.zone} ${self.name}\n127.0.0.1\tlocalhost\n\n::1\tlocalhost\nff02::1\tip6-allnodes\nff02::2i\tip6-allrouters"
     destination = "/etc/hosts"
 
     connection {
