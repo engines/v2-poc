@@ -124,10 +124,21 @@ resource "consul_key_prefix" "wap" {
 # ------------------------------------------------------------
 # Reverse HTTP Proxy container
 # ------------------------------------------------------------
-
 module "wap" {
   source  = "./modules/turtle-container"
   name    = "wap"
   image   = "engines/beowulf/base/20200701/0710"
   zone    = local.domain
+}
+
+
+# ------------------------------------------------------------
+# Application DNS entry
+# ------------------------------------------------------------
+resource "powerdns_record" "AAAA" {
+  zone    = local.domain
+  name    = "app.${local.domain}."
+  type    = "AAAA"
+  ttl     = 60
+  records = ["${module.wap.ipv6_address}"]
 }
