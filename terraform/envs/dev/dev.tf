@@ -9,7 +9,8 @@ provider "lxd" {
 
 
 locals {
-  domain = "${var.datacentre}.${var.zone}"
+  domain      = "${var.datacentre}.${var.zone}"
+  entrypoint  = "app.${var.datacentre}.${var.zone}"
 }
 
 
@@ -118,7 +119,7 @@ resource "consul_key_prefix" "wap" {
   subkeys     = {
     "http/routers/app/entrypoints/0"                = "web"
     "http/routers/app/service"                      = "app"
-    "http/routers/app/rule"                         = "Host(`app.dh.engines.org`)"
+    "http/routers/app/rule"                         = "Host(`${local.entrypoint}`)"
     "http/services/app/loadbalancer/servers/0/url"  = "http://${module.app0.name}.${local.domain}:3000/"
     "http/services/app/loadbalancer/servers/1/url"  = "http://${module.app1.name}.${local.domain}:3000/"
     "http/services/app/loadbalancer/servers/2/url"  = "http://${module.app2.name}.${local.domain}:3000/"
@@ -142,7 +143,7 @@ module "wap" {
 # ------------------------------------------------------------
 resource "powerdns_record" "AAAA" {
   zone    = local.domain
-  name    = "app.${local.domain}."
+  name    = "${local.entrypoint}."
   type    = "AAAA"
   ttl     = 60
   records = ["${module.wap.ipv6_address}"]
