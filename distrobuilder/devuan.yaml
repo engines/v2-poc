@@ -11,12 +11,12 @@ source:
   same_as: beowulf
   suite: beowulf
 
-  url: http://aptcacher.int.filterfish.org:3142/auto.mirror.devuan.org/merged
+  url: http://aptcacher.int.filterfish.org:3142/pkgmaster.devuan.org/merged
 
   apt_sources: |-
-    deb http://aptcacher.int.filterfish.org:3142/auto.mirror.devuan.org/merged {{ image.release }}-updates main
-    deb http://aptcacher.int.filterfish.org:3142/auto.mirror.devuan.org/merged {{ image.release }}-security main
-    deb http://aptcacher.int.filterfish.org:3142/auto.mirror.devuan.org/merged {{ image.release }}-backports main
+    deb http://aptcacher.int.filterfish.org:3142/pkgmaster.devuan.org/merged {{ image.release }}-updates main
+    deb http://aptcacher.int.filterfish.org:3142/pkgmaster.devuan.org/merged {{ image.release }}-security main
+    deb http://aptcacher.int.filterfish.org:3142/pkgmaster.devuan.org/merged {{ image.release }}-backports main
 
 targets:
   lxc:
