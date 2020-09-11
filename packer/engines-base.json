@@ -47,6 +47,13 @@
     },
     {
       "type": "shell",
+      "environment_vars": ["ENGINES_PACKAGES=postfix opendkim"],
+      "scripts": [
+        "scripts/install-packages"
+      ]
+    },
+    {
+      "type": "shell",
       "scripts": "scripts/cleanup"
     }
   ]
