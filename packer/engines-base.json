@@ -32,15 +32,21 @@
     },
     {
       "type": "shell",
+      "scripts": "scripts/apt"
+    },
+    {
+      "type": "shell",
       "scripts": [
         "scripts/provision-files",
         "scripts/locale",
-        "scripts/apt",
         "scripts/packages",
         "scripts/supervisor",
-        "scripts/sshd",
-        "scripts/cleanup"
+        "scripts/sshd"
       ]
+    },
+    {
+      "type": "shell",
+      "scripts": "scripts/cleanup"
     }
   ]
 }
