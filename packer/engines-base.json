@@ -41,6 +41,7 @@
         "scripts/locale",
         "scripts/packages",
         "scripts/supervisor",
+        "scripts/inittab",
         "scripts/sshd"
       ]
     },
