@@ -47,7 +47,7 @@
     },
     {
       "type": "shell",
-      "environment_vars": ["ENGINES_PACKAGES=postfix opendkim"],
+      "environment_vars": ["ENGINES_PACKAGES=''"],
       "scripts": [
         "scripts/install-packages"
       ]
