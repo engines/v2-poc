@@ -46,6 +46,7 @@
 				"scripts/locale",
 				"scripts/apt",
 				"scripts/packages",
+				"scipts/provision_injections",
 				"scripts/supervisor",
 				"scripts/sshd",
 				"scripts/cleanup"
