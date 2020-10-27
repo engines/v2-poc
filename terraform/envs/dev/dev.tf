@@ -7,193 +7,100 @@ provider "lxd" {
   accept_remote_certificate    = true
 }
 
-# ------------------------------------------------------------
-# The default pool from which contain volumes.
-# ------------------------------------------------------------
-variable "pool_properties" {
-  default = {
-    "path" = "/"
-    "pool" = "default"
-  }
-}
 
-# ------------------------------------------------------------
-# The command to run propellor. In case you're wondering why
-# this looks so odd it's me simply being lazy. I don't want to
-# change the permissions of /tmp/propellor-config" so I just
-# run it with the dynamic linker.
-# ------------------------------------------------------------
-variable "run-propellor" {
-  default = [ "/lib64/ld-linux-x86-64.so.2 /tmp/propellor-config" ]
+locals {
+  domain      = "${var.datacentre}.${var.zone}"
+  entrypoint  = "app.${var.datacentre}.${var.zone}"
 }
 
 
+provider "powerdns" {
+  api_key    = var.pdns_api_key
+  server_url = var.pdns_server_url
+}
+
+
+provider "consul" {
+  address    = "[fd61:d025:74d7:f46a:216:3eff:fe0f:ec40]:8500"
+  datacenter = var.datacentre
+}
+
 # ------------------------------------------------------------
-# postgres container
+# Postgresql container
 # ------------------------------------------------------------
-resource "lxd_container" "postgres" {
-  name      = "postgres"
-  image     = "engines/beowulf/base/20200623/1143"
-  ephemeral = false
+module "postgres" {
+  source  = "./modules/turtle-container"
+  name    = "postgres"
+  image   = "engines/beowulf/base/20200701/0249/ci"
+  zone    = local.domain
+}
 
-  device {
-    name        = "root"
-    type        = "disk"
-    properties  = var.pool_properties
-  }
-
-  config = {
-    "boot.autostart" = true
-  }
-
-  # This only exists because the host name is not in DNS so
-  # it doesn't know who it is which breaks propellor.
-  provisioner "file" {
-    content     = "127.0.1.1\t${self.name}.int.engines.org ${self.name}\n127.0.0.1\tlocalhost\n::1\tlocalhost\nff02::1\tip6-allnodes\nff02::2i\tip6-allrouters"
-    destination = "/etc/hosts"
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
-
-  # Copy propellor over to the container
-  provisioner "file" {
-    source      = "/tmp/propellor-config"
-    destination = "/tmp/propellor-config"
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
-
-  # Run propellor.
-  provisioner "remote-exec" {
-    inline = var.run-propellor
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
+module "postgres_srv" {
+  source    = "./modules/consul-service"
+  srv_name  = "database"
+  srv_port  = 5432
+  srv_node  = "${module.postgres.name}"
+  srv_addr  = "${module.postgres.ipv6_address}"
 }
 
 
 # ------------------------------------------------------------
-# rails container
+# Application containers
 # ------------------------------------------------------------
-resource "lxd_container" "rails" {
-  name      = "rails"
-  image     = "engines/beowulf/base/20200623/1143"
-  ephemeral = false
+module "app0" {
+  source  = "./modules/turtle-container"
+  name    = "app0"
+  image   = "engines/beowulf/base/20200701/0710"
+  zone    = local.domain
+}
 
-  device {
-    name        = "root"
-    type        = "disk"
-    properties  = var.pool_properties
-  }
+module "app1" {
+  source  = "./modules/turtle-container"
+  name    = "app1"
+  image   = "engines/beowulf/base/20200701/0710"
+  zone    = local.domain
+}
 
-  config = {
-    "boot.autostart" = true
-  }
+module "app2" {
+  source  = "./modules/turtle-container"
+  name    = "app2"
+  image   = "engines/beowulf/base/20200701/0710"
+  zone    = local.domain
+}
 
-  # This only exists because the host name is not in DNS so
-  # it doesn't know who it is which breaks propellor.
-  provisioner "file" {
-    content     = "127.0.1.1\t${self.name}.int.engines.org ${self.name}\n127.0.0.1\tlocalhost\n::1\tlocalhost\nff02::1\tip6-allnodes\nff02::2i\tip6-allrouters"
-    destination = "/etc/hosts"
 
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
-
-  # Copy propellor over to the container
-  provisioner "file" {
-    source      = "/tmp/propellor-config"
-    destination = "/tmp/propellor-config"
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
-
-  # Run propellor.
-  provisioner "remote-exec" {
-    inline = var.run-propellor
-    # inline = [
-    #   "/lib64/ld-linux-x86-64.so.2 /tmp/propellor-config"
-    # ]
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
+resource "consul_key_prefix" "wap" {
+  datacenter  = var.datacentre
+  path_prefix = "traefik/"
+  subkeys     = {
+    "http/routers/app/entrypoints/0"                = "web"
+    "http/routers/app/service"                      = "app"
+    "http/routers/app/rule"                         = "Host(`${local.entrypoint}`)"
+    "http/services/app/loadbalancer/servers/0/url"  = "http://${module.app0.name}.${local.domain}:3000/"
+    "http/services/app/loadbalancer/servers/1/url"  = "http://${module.app1.name}.${local.domain}:3000/"
+    "http/services/app/loadbalancer/servers/2/url"  = "http://${module.app2.name}.${local.domain}:3000/"
   }
 }
 
 
 # ------------------------------------------------------------
-# wap container
+# Reverse HTTP Proxy container
 # ------------------------------------------------------------
-resource "lxd_container" "wap" {
-  name      = "wap"
-  image     = "engines/beowulf/base/20200623/1143"
-  ephemeral = false
+module "wap" {
+  source  = "./modules/turtle-container"
+  name    = "wap"
+  image   = "engines/beowulf/base/20200701/0710"
+  zone    = local.domain
+}
 
-  device {
-    name        = "root"
-    type        = "disk"
-    properties  = var.pool_properties
-  }
 
-  config = {
-    "boot.autostart" = true
-  }
-
-  # This only exists because the host name is not in DNS so
-  # it doesn't know who it is which breaks propellor.
-  provisioner "file" {
-    content     = "127.0.1.1\t${self.name}.int.engines.org ${self.name}\n127.0.0.1\tlocalhost\n::1\tlocalhost\nff02::1\tip6-allnodes\nff02::2i\tip6-allrouters"
-    destination = "/etc/hosts"
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
-
-  # Copy propellor over to the container
-  provisioner "file" {
-    source      = "/tmp/propellor-config"
-    destination = "/tmp/propellor-config"
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
-
-  # Run propellor.
-  provisioner "remote-exec" {
-    inline = var.run-propellor
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv6_address
-    }
-  }
+# ------------------------------------------------------------
+# Application DNS entry
+# ------------------------------------------------------------
+resource "powerdns_record" "app" {
+  zone    = local.domain
+  name    = "${local.entrypoint}."
+  type    = "AAAA"
+  ttl     = var.dns_ttl
+  records = ["${module.wap.ipv6_address}"]
 }
