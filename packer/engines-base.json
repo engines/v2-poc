@@ -45,7 +45,6 @@
 				"scripts/provision-files",
 				"scripts/locale",
 				"scripts/packages",
-				"scipts/provision-injections",
 				"scripts/supervisor",
 				"scripts/inittab",
 				"scripts/sshd"
@@ -57,7 +56,8 @@
 				"ENGINES_PACKAGES=''"
 			],
 			"scripts": [
-				"scripts/install-packages"
+				"scripts/install-packages",
+				"scipts/provision-injections"
 			]
 		},
 		{
