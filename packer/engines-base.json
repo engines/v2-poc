@@ -57,7 +57,7 @@
 			],
 			"scripts": [
 				"scripts/install-packages",
-				"scipts/provision-injections"
+				"scripts/provision-injections"
 			]
 		},
 		{
