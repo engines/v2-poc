@@ -8,7 +8,7 @@
 		{
 			"name": "{{user `suite`}}",
 			"type": "lxd",
-			"image": "smelt:devuan/beowulf/debootstrap",
+			"image": "images/debian/stretch/cloud",
 			"output_image": "engines/{{user `suite`}}/base/{{user `datestamp`}}{{user `tag`}}",
 			"publish_properties": {
 				"description": "Engines {{user `suite`}} image",
