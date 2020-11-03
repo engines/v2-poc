@@ -38,7 +38,7 @@
 		{
 			"type": "shell",
 			"scripts": [
-				"/tmp/build_scripts/provision_setup"
+				"/tmp/build_scripts/provision-setup"
 			]
 		},
 		{
