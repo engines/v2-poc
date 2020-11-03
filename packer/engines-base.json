@@ -27,7 +27,7 @@
 		},
 		{
 			"type": "file",
-			"source": "build_scripts/",
+			"source": "build/scripts/",
 			"destination": "tmp"
 		},
 		{
@@ -38,23 +38,20 @@
 		{
 			"type": "shell",
 			"scripts": [
-				"build_scripts/provision-setup"
+				"build/scripts/provision-setup"
 			]
 		},
 		{
 			"type": "shell",
-			"environment_vars": [
-				"ENGINES_PACKAGES=''"
-			],
 			"scripts": [
-				"build_scripts/install-packages",
-				"build_scripts/provision-injections",
-				"build_scripts/remove-packages"
+				"build/scripts/install-packages",
+				"build/scripts/provision-injections",
+				"build/scripts/remove-packages"
 			]
 		},
 		{
 			"type": "shell",
-			"scripts": "build_scripts/post-provision"
+			"scripts": "build/scripts/post-provision"
 		}
 	]
 }

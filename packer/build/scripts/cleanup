@@ -39,5 +39,5 @@ find / -xdev \( -name \*.dpkg-dist -o -name \*.ucf-dist -o -name \*.dpkg-old -o 
 heading "Remove the packer files directory"
 rm -rf /tmp/files
 rm -rf /tmp/injections
-rm -rf /tmp/build_scripts
+rm -rf /tmp/build/scripts
 
