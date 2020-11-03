@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
- build_scripts/scripts/provision-files \&&
+ build_scripts/provision-files \&&
 if test -f files/scripts/provision-setup
 	then
 		files/scripts/provision-setup
