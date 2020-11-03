@@ -8,5 +8,4 @@
 # the correct place.
 
 chown -R root:root /tmp/files
-tar -C /tmp/files -cf - . | tar -C / -xf -
-
+tar -C /tmp/files  --exclude='/files/scripts'  -cf - . | tar -C / -xf -

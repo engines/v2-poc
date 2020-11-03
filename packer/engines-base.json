@@ -8,7 +8,7 @@
 		{
 			"name": "{{user `suite`}}",
 			"type": "lxd",
-			"image": "images/debian/stretch/cloud",
+			"image": "images:devuan/beowulf/cloud",
 			"output_image": "engines/{{user `suite`}}/base/{{user `datestamp`}}{{user `tag`}}",
 			"publish_properties": {
 				"description": "Engines {{user `suite`}} image",
@@ -27,12 +27,8 @@
 		},
 		{
 			"type": "file",
-			"source": "scripts/",
+			"source": "build_scripts/",
 			"destination": "tmp"
-		},
-		{
-			"type": "shell",
-			"scripts": "scripts/apt"
 		},
 		{
 			"type": "file",
@@ -42,12 +38,7 @@
 		{
 			"type": "shell",
 			"scripts": [
-				"scripts/provision-files",
-				"scripts/locale",
-				"scripts/packages",
-				"scripts/supervisor",
-				"scripts/inittab",
-				"scripts/sshd"
+				"/tmp/build_scripts/provision_setup"
 			]
 		},
 		{
@@ -56,13 +47,14 @@
 				"ENGINES_PACKAGES=''"
 			],
 			"scripts": [
-				"scripts/install-packages",
-				"scripts/provision-injections"
+				"/tmp/build_scripts/install-packages",
+				"/tmp/build_scripts/provision-injections",
+				"/tmp/build_scripts/remove-packages"
 			]
 		},
 		{
 			"type": "shell",
-			"scripts": "scripts/cleanup"
+			"scripts": "/tmp/build_scripts/post_provision"
 		}
 	]
 }
