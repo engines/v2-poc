@@ -10,11 +10,11 @@
 
 # If this isn't included build will hang forever if dpkg asks any questions.
 
-export DEBIAN_FRONTEND=noninteractive
+
 if test -f /tmp/build/install_package_list
  then
    ENGINES_PACKAGES=`cat /tmp/build/install_package_list`
-   apt-get install -y --no-install-recommends $ENGINES_PACKAGES 
+   apt-get -o Dpkg::Options::=--force-confnew  install -y --no-install-recommends $ENGINES_PACKAGES 
 fi
 
 
