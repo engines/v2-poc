@@ -27,7 +27,7 @@
 		},
 		{
 			"type": "file",
-			"source": "build/scripts/",
+			"source": "build/",
 			"destination": "tmp"
 		},
 		{
