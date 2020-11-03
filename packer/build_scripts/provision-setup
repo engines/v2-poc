@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-/tmp/build_scripts/scripts/provision-files \&&
-if test -f /tmp/files/scripts/provision-setup
+ build_scripts/scripts/provision-files \&&
+if test -f files/scripts/provision-setup
 	then
-		/tmp/files/scripts/provision-setup
+		files/scripts/provision-setup
 fi
  

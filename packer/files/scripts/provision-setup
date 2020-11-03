@@ -2,9 +2,9 @@
 
 
 
-/files/scripts/apt
-/files/scripts/locale \&&
-/files/scripts/packages \&&
-/files/scripts/supervisor \&&
-/files/scripts/inittab \&&
-/files/scripts/sshd 
+files/scripts/apt
+files/scripts/locale \&&
+files/scripts/packages \&&
+files/scripts/supervisor \&&
+files/scripts/inittab \&&
+files/scripts/sshd 
