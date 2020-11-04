@@ -33,7 +33,7 @@
 		{
 			"type": "shell",
 			"scripts": [
-				"build/scripts/provision-setup"
+				"build/scripts/pre-provision-setup"
 			]
 		},
 		{
@@ -45,7 +45,7 @@
 			],
 			"scripts": [
 				"build/scripts/install-packages",
-				"build/scripts/provision-injections",
+				"build/scripts/provision-post",
 				"build/scripts/remove-packages"
 			]
 		},

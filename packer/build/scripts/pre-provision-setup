@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+ /tmp/build/scripts/pre-provision-injections \&&
+if test -f /tmp/injections/pre/scripts/provision-setup
+	then
+		/tmp/injections/pre/scripts/provision-setup
+fi

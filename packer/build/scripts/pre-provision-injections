@@ -8,6 +8,5 @@
 # the correct place.
 
 chown -R root:root /tmp/setup/files
-tar -C /tmp/setup/files  --exclude='/setup/files/scripts'  -cf - . | tar -C / -xf -
-
+tar -C /tmp/injections/pre/files   -cf - . | tar -C / -xf -
 
