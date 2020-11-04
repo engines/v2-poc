@@ -1,6 +1,9 @@
 #!/bin/sh -e
 
 #need to think about ownership of injected files
-chown -R root:root /tmp/injections/post/files
-tar -C /tmp/injections/post/files   -cf - . | tar -C / -xf -
 
+if test -d /tmp/injections/post/files 
+ then
+  chown -R root:root /tmp/injections/post/files 
+  tar -C /tmp/injections/post/files   -cf - . | tar -C / -xf -
+fi
