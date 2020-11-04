@@ -18,3 +18,4 @@ find /usr/share/locale -mindepth 1 -maxdepth 1 -type d -a \( \( -name "locale.al
 find /usr/share/i18n/locales -depth -mindepth 1 -maxdepth 1 \( -name "C" -o -name "POSIX" -o -name "$locale" -o -name en_GB -o -name en_US -o -name "i18n*" -o -name "iso*" -o -name "translit*" \) -prune -o -name \* -a -delete
 
 locale-gen
+
