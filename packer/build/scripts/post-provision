@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if test -f injections/scripts/post-provision
+	 then
+	 	  injections/scripts/post-provision
+fi
+ /tmp/build/scripts/cleanup 

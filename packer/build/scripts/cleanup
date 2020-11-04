@@ -37,4 +37,7 @@ heading "Removing dist/auto-upgrade files"
 find / -xdev \( -name \*.dpkg-dist -o -name \*.ucf-dist -o -name \*.dpkg-old -o -name \*.dpkg-new -o -name \*.dpkg-tmp \) -delete
 
 heading "Remove the packer files directory"
-rm -rf /files
+rm -rf /tmp/files
+rm -rf /tmp/injections
+rm -rf /tmp/build/scripts
+
