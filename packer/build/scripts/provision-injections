@@ -1,5 +1,4 @@
 #!/bin/sh -e
 
-
 #need to think about ownership of injected files
 tar -C /tmp/injections -cf - . | tar -C / -xf -

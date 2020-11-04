@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+ /tmp/build/scripts/provision-files \&&
+if test -f files/scripts/provision-setup
+	then
+		files/scripts/provision-setup
+fi
+ 
