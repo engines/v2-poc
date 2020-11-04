@@ -2,9 +2,9 @@
 
 # If this isn't included build will hang forever if dpkg asks any questions.
 export DEBIAN_FRONTEND=noninteractive
-if test -f /tmp/setup/build/remove_package_list
+if test -f /tmp/build/remove_package_list
  then
-   ENGINES_PACKAGES=`cat /tmp/setup/build/remove_package_list`
+   ENGINES_PACKAGES=`cat /tmp/build/remove_package_list`
    apt-get remove -y  $ENGINES_PACKAGES 
 fi
 

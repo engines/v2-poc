@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
- /tmp/setup/build/scripts/provision-files \&&
+ /tmp/build/scripts/provision-files \&&
 if test -f /tmp/setup/files/scripts/provision-setup
 	then
 		/tmp/setup/files/scripts/provision-setup

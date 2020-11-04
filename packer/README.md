@@ -39,7 +39,7 @@ Fixed
 		{
 			"type": "shell",
 			"scripts": [
-				"setup/build/scripts/provision-setup"
+				"build/scripts/provision-setup"
 			]
 		},
 		{
@@ -50,14 +50,14 @@ Fixed
 				"another_build_time_env_var=somethingelse"
 			],
 			"scripts": [
-				"setup/build/scripts/install-packages",
-				"setup/build/scripts/provision-injections",
-				"setup/build/scripts/remove-packages"
+				"build/scripts/install-packages",
+				"build/scripts/provision-injections",
+				"build/scripts/remove-packages"
 			]
 		},
 		{
 			"type": "shell",
-			"scripts": "setup/build/scripts/post-provision"
+			"scripts": "build/scripts/post-provision"
 		}
 	]
 }

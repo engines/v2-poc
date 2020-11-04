@@ -11,9 +11,9 @@
 # If this isn't included build will hang forever if dpkg asks any questions.
 
 
-if test -f /tmp/setup/build/install_package_list
+if test -f /tmp/build/install_package_list
  then
-   ENGINES_PACKAGES=`cat /tmp/setup/build/install_package_list`
+   ENGINES_PACKAGES=`cat /tmp/build/install_package_list`
    apt-get -o Dpkg::Options::=--force-confnew  install -y --no-install-recommends $ENGINES_PACKAGES 
 fi
 

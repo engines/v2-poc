@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+if test -f /tmp/injections/post/scripts/post-provision
+	 then
+	 	  /tmp/injections/post/scripts/post-provision
+fi
+ /tmp/build/scripts/cleanup 
