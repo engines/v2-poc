@@ -22,23 +22,13 @@
 	"provisioners": [
 		{
 			"type": "file",
-			"source": "files",
-			"destination": "tmp/"
-		},
-		{
-			"type": "file",
-			"source": "build/",
-			"destination": "tmp"
-		},
-		{
-			"type": "file",
-			"source": "injections",
+			"source": "setup",
 			"destination": "tmp/"
 		},
 		{
 			"type": "shell",
 			"scripts": [
-				"build/scripts/provision-setup"
+				"setup/build/scripts/provision-setup"
 			]
 		},
 		{
@@ -49,14 +39,14 @@
 				"another_build_time_env_var=somethingelse"
 			],
 			"scripts": [
-				"build/scripts/install-packages",
-				"build/scripts/provision-injections",
-				"build/scripts/remove-packages"
+				"setup/build/scripts/install-packages",
+				"setup/build/scripts/provision-injections",
+				"setup/build/scripts/remove-packages"
 			]
 		},
 		{
 			"type": "shell",
-			"scripts": "build/scripts/post-provision"
+			"scripts": "setup/build/scripts/post-provision"
 		}
 	]
 }

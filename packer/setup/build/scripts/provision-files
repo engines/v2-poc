@@ -7,7 +7,7 @@
 # In short this changes the file permissions and then uses tar move them into
 # the correct place.
 
-chown -R root:root /tmp/files
-tar -C /tmp/files  --exclude='/files/scripts'  -cf - . | tar -C / -xf -
+chown -R root:root /tmp/setup/files
+tar -C /tmp/setup/files  --exclude='/setup/files/scripts'  -cf - . | tar -C / -xf -
 
 
