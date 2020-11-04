@@ -45,7 +45,7 @@
 			],
 			"scripts": [
 				"build/scripts/install-packages",
-				"build/scripts/post-prevision-setup",
+				"build/scripts/post-provision-setup",
 				"build/scripts/remove-packages"
 			]
 		},
