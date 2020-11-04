@@ -45,13 +45,13 @@
 			],
 			"scripts": [
 				"build/scripts/install-packages",
-				"build/scripts/provision-post",
+				"build/scripts/post-prevision-setup",
 				"build/scripts/remove-packages"
 			]
 		},
 		{
 			"type": "shell",
-			"scripts": "build/scripts/post-provision"
+			"scripts": "build/scripts/cleanup"
 		}
 	]
 }
