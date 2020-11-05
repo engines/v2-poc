@@ -1,22 +1,21 @@
-#Note this 'blueprint' should only be used to create an image adding turtles below this will break in many cases
-# so this is used to create the starting point image
+Note this 'blueprint' should only be used to create an image adding turtles below this will break in many cases
+ so this is used to create the starting point image
 
-{
- #From Blue print			
+
+Suite should come from blueprint (optional if already set in from image)
+
 	"variables": {
 		"suite": "beowulf",
 		"tag": "",
-		"datestamp": "{{isotime \"20060102\/0304\"}}"
-	},
- # end from
+		"datestamp": "{{isotime \"^^todays_date^^"}}"
+	}
+	
+publish_properties should come from the blue print (optional if already set in from image)
 	"builders": [
 		{
-	#From Blue print				
 			"name": "{{user `suite`}}",
-	 # end from
 			"type": "lxd",
- #From Blue print			
-			"image": "images:devuan/beowulf/cloud",
+			"image": "^^blueprint_base_image^^",
 			"output_image": "engines/{{user `suite`}}/base/{{user `datestamp`}}{{user `tag`}}",
 			"publish_properties": {
 				"description": "Engines {{user `suite`}} image",
@@ -26,50 +25,48 @@
 				"release": "Devuan GNU/Linux 3.0"
 			}
 		}
- # end from
-	],
+	]
+Fixed static section
+
 	"provisioners": [
-		{
-			"type": "file",
-			"source": "files",
-			"destination": "tmp/"
-		},
-		{
-			"type": "file",
-			"source": "build/",
-			"destination": "tmp"
-		},
 		{
 			"type": "file",
 			"source": "injections",
 			"destination": "tmp/"
 		},
 		{
-			"type": "shell",
-			"scripts": [
-				"build/scripts/provision-setup"
-			]
+			"type": "file",
+			"source": "build",
+			"destination": "tmp/"
 		},
 		{
 			"type": "shell",
+			"scripts": [
+				"build/scripts/pre-provision-setup"
+			]
+		},
+
+From Blueprint
+
+		{
+			"type": "shell",
 			"environment_vars": [
-				"DEBIAN_FRONTEND=noninteractive",
- #From Blue print
 				"a_build_time_env_var=something",
 				"another_build_time_env_var=somethingelse"
- # end from
 			],
+			
+Fixed static section. Though we could add modules and package install after install-packages 
+though these probably should go in post-provision-setup
+
 			"scripts": [
- # optional add repositories
 				"build/scripts/install-packages",
-				"build/scripts/provision-injections",
- # optional add_modules
+				"build/scripts/post-provision-setup",
 				"build/scripts/remove-packages"
 			]
 		},
 		{
 			"type": "shell",
-			"scripts": "build/scripts/post-provision"
+			"scripts": "build/scripts/cleanup"
 		}
 	]
-}
+
