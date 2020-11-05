@@ -1,11 +1,11 @@
 Note this 'blueprint' should only be used to create an image adding turtles below this will break in many cases
  so this is used to create the starting point image
 
-#directories
+##Directories
 build the scripts the do the build
 injections from the blueprint here in this repo for testing
 
-#engines-base.json
+##engines-base.json
 Suite should come from blueprint (optional if already set in from image)
 
 	"variables": {
@@ -15,6 +15,7 @@ Suite should come from blueprint (optional if already set in from image)
 	}
 	
 publish_properties should come from the blue print (optional if already set in from image)
+
 	"builders": [
 		{
 			"name": "{{user `suite`}}",
@@ -30,6 +31,7 @@ publish_properties should come from the blue print (optional if already set in f
 			}
 		}
 	]
+	
 Fixed static section
 
 	"provisioners": [
