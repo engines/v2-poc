@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/tmp/injections/pre/scripts/supervisor &&\
+/tmp/injections/pre/scripts/inittab &&\
+/tmp/injections/pre/scripts/sshd 

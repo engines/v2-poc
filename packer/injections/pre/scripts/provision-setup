@@ -1,9 +1,4 @@
 #!/bin/sh -e
 
-
 /tmp/injections/pre/scripts/apt &&\
-/tmp/injections/pre/scripts/locale &&\
-/tmp/injections/pre/scripts/packages &&\
-/tmp/injections/pre/scripts/supervisor &&\
-/tmp/injections/pre/scripts/inittab &&\
-/tmp/injections/pre/scripts/sshd 
+/tmp/injections/pre/scripts/locale 
