@@ -4,8 +4,8 @@ heading() {
   echo "==> $1 <=="
 }
 
-locale=en_AU
-charset=UTF-8
+locale=^^locale^^
+charset=^^charset^^
 
 echo "LANG=$locale.$charset" > /etc/default/locale
 echo "$locale.$charset $charset" > /etc/locale.gen
