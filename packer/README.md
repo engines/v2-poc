@@ -1,7 +1,11 @@
 Note this 'blueprint' should only be used to create an image adding turtles below this will break in many cases
  so this is used to create the starting point image
 
+#directories
+build the scripts the do the build
+injections from the blueprint here in this repo for testing
 
+#engines-base.json
 Suite should come from blueprint (optional if already set in from image)
 
 	"variables": {
