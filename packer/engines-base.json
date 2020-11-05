@@ -39,7 +39,6 @@
 		{
 			"type": "shell",
 			"environment_vars": [
-				"DEBIAN_FRONTEND=noninteractive",
 				"a_build_time_env_var=something",
 				"another_build_time_env_var=somethingelse"
 			],
