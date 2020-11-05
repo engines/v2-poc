@@ -2,22 +2,20 @@ Note this 'blueprint' should only be used to create an image adding turtles belo
  so this is used to create the starting point image
 
 
- From Blue print			
+Suite should come from blueprint (optional if already set in from image)
+
 	"variables": {
 		"suite": "beowulf",
 		"tag": "",
-		"datestamp": "{{isotime \"20060102\/0304\"}}"
-	},
-
- From Blue print			
-
+		"datestamp": "{{isotime \"^^todays_date^^"}}"
+	}
+	
+publish_properties should come from the blue print (optional if already set in from image)
 	"builders": [
-		{		
+		{
 			"name": "{{user `suite`}}",
-
 			"type": "lxd",
-
-			"image": "images:devuan/beowulf/cloud",
+			"image": "^^blueprint_base_image^^",
 			"output_image": "engines/{{user `suite`}}/base/{{user `datestamp`}}{{user `tag`}}",
 			"publish_properties": {
 				"description": "Engines {{user `suite`}} image",
@@ -27,37 +25,48 @@ Note this 'blueprint' should only be used to create an image adding turtles belo
 				"release": "Devuan GNU/Linux 3.0"
 			}
 		}
-	],
-Fixed
-{
+	]
+Fixed static section
+
 	"provisioners": [
 		{
 			"type": "file",
-			"source": "setup",
+			"source": "injections",
+			"destination": "tmp/"
+		},
+		{
+			"type": "file",
+			"source": "build",
 			"destination": "tmp/"
 		},
 		{
 			"type": "shell",
 			"scripts": [
-				"build/scripts/provision-setup"
+				"build/scripts/pre-provision-setup"
 			]
 		},
+
+From Blueprint
+
 		{
 			"type": "shell",
 			"environment_vars": [
-				"DEBIAN_FRONTEND=noninteractive",
 				"a_build_time_env_var=something",
 				"another_build_time_env_var=somethingelse"
 			],
+			
+Fixed static section. Though we could add modules and package install after install-packages 
+though these probably should go in post-provision-setup
+
 			"scripts": [
 				"build/scripts/install-packages",
-				"build/scripts/provision-injections",
+				"build/scripts/post-provision-setup",
 				"build/scripts/remove-packages"
 			]
 		},
 		{
 			"type": "shell",
-			"scripts": "build/scripts/post-provision"
+			"scripts": "build/scripts/cleanup"
 		}
 	]
-}
+
