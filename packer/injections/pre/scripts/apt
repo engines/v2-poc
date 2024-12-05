@@ -47,3 +47,4 @@ export DEBIAN_FRONTEND=noninteractive
 heading "Upgrading the system"
 apt-get update
 apt-get dist-upgrade -yy
+
